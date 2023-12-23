@@ -33,6 +33,7 @@ bool init_pub = 0;
 
 void img_callback(const sensor_msgs::ImageConstPtr &img_msg)
 {
+    ROS_INFO("Visual Feature Tracker: image callback.");
     double cur_img_time = img_msg->header.stamp.toSec();
 
     if(first_image_flag)
@@ -224,6 +225,7 @@ void img_callback(const sensor_msgs::ImageConstPtr &img_msg)
 
 void lidar_callback(const sensor_msgs::PointCloud2ConstPtr& laser_msg)
 {
+    ROS_INFO("Visual Feature Tracker: lidar callback.");
     static int lidar_count = -1;
     if (++lidar_count % (LIDAR_SKIP+1) != 0)
         return;

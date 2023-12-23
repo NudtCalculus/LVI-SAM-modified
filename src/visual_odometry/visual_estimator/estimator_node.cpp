@@ -320,7 +320,6 @@ int main(int argc, char **argv)
     ros::NodeHandle n;
     ROS_INFO("\033[1;32m----> Visual Odometry Estimator Started.\033[0m");
     ros::console::set_logger_level(ROSCONSOLE_DEFAULT_NAME, ros::console::levels::Warn);
-
     readParameters(n);
     estimator.setParameter();
 

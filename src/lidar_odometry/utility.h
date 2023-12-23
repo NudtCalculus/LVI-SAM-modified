@@ -156,6 +156,7 @@ public:
 
     ParamServer()
     {
+        ROS_INFO("Start ParamServer.");
         nh.param<std::string>("/PROJECT_NAME", PROJECT_NAME, "sam");
 
         nh.param<std::string>("/robot_id", robot_id, "roboat");
@@ -185,6 +186,7 @@ public:
         nh.param<float>(PROJECT_NAME + "/imuGravity", imuGravity, 9.80511);
 
     #if IF_OFFICIAL
+        ROS_INFO("ParamServer official.");
         nh.param<vector<double>>(PROJECT_NAME+ "/extrinsicRot", extRotV, vector<double>());
         nh.param<vector<double>>(PROJECT_NAME+ "/extrinsicRPY", extRPYV, vector<double>());
         nh.param<vector<double>>(PROJECT_NAME+ "/extrinsicTrans", extTransV, vector<double>());
@@ -193,12 +195,19 @@ public:
         extTrans = Eigen::Map<const Eigen::Matrix<double, -1, -1, Eigen::RowMajor>>(extTransV.data(), 3, 1);
         extQRPY = Eigen::Quaterniond(extRPY);
     #else
+        ROS_INFO("ParamServer non-official.");
         //? mod: 修改外参读取方式
         nh.param<vector<double>>(PROJECT_NAME+ "/extrinsicTranslation", t_imu_lidar_V, vector<double>());
+        ROS_INFO("ParamServer non-official 11111.");
         nh.param<vector<double>>(PROJECT_NAME+ "/extrinsicRotation", R_imu_lidar_V, vector<double>());
-        t_imu_lidar = Eigen::Map<const Eigen::Matrix<double, -1, -1, Eigen::RowMajor>>(t_imu_lidar_V.data(), 3, 1);
-        Eigen::Matrix3d R_tmp = Eigen::Map<const Eigen::Matrix<double, -1, -1, Eigen::RowMajor>>(R_imu_lidar_V.data(), 3, 3);
-        ROS_ASSERT(abs(R_tmp.determinant()) > 0.9);   // 防止配置文件中写错，这里加一个断言判断一下
+        ROS_INFO("ParamServer non-official 222222.");
+        t_imu_lidar = Eigen::Map<const Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>>(t_imu_lidar_V.data(), 3, 1);
+        ROS_INFO("ParamServer non-official 333333.");
+        // Eigen::Matrix3d R_tmp;
+        Eigen::Matrix3d R_tmp = Eigen::Map<const Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>>(R_imu_lidar_V.data(), 3, 3);
+        ROS_INFO("ParamServer non-official 1st assert.");
+        // ROS_ASSERT(abs(R_tmp.determinant()) > 0.9);   // 防止配置文件中写错，这里加一个断言判断一下
+        ROS_INFO("ParamServer non-official 1st assert done.");
         R_imu_lidar = Eigen::Quaterniond(R_tmp).normalized().toRotationMatrix();
         R_lidar_imu = R_imu_lidar.transpose();
 
@@ -226,6 +235,7 @@ public:
         R_imu_quat.col(0) = col_map[roll_axis];
         ROS_ASSERT(abs(R_imu_quat.determinant()) > 0.9);  
 
+        ROS_INFO("ParamServer non-official  1111.");
         //; R_quat_lidar = R_quat_imu * R_imu_lidar
         Eigen::Matrix3d R_quat_lidar = R_imu_quat.transpose() * R_imu_lidar;  
         Q_quat_lidar = Eigen::Quaterniond(R_quat_lidar).normalized();
@@ -249,6 +259,8 @@ public:
             std::cout << R_quat_lidar << std::endl;
         }
     #endif
+
+        ROS_INFO("ParamServer first endif.");
 
         nh.param<float>(PROJECT_NAME + "/edgeThreshold", edgeThreshold, 0.1);
         nh.param<float>(PROJECT_NAME + "/surfThreshold", surfThreshold, 0.1);

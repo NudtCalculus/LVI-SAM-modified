@@ -43,8 +43,12 @@ int LIDAR_SKIP;
 void readParameters(ros::NodeHandle &n)
 {
     std::string config_file;
+    ROS_INFO("visual_feature getting param.");
     n.getParam("vins_config_file", config_file);
+    config_file = "/home/brookxie/lvi-sam/src/LVI-SAM-Easyused/config/params_camera.yaml";
+    std::cout << config_file << std::endl;
     cv::FileStorage fsSettings(config_file, cv::FileStorage::READ);
+    ROS_INFO("visual_feature filestorage.");
     if(!fsSettings.isOpened())
     {
         std::cerr << "ERROR: Wrong path to settings" << std::endl;

@@ -39,8 +39,11 @@ Eigen::Vector3d t_imu_lidar = Eigen::Vector3d::Zero();
 void readParameters(ros::NodeHandle &n)
 {
     std::string config_file;
+    ROS_INFO("visual_estimator getting param.");
     n.getParam("vins_config_file", config_file);
+    std::cout << config_file << std::endl;
     cv::FileStorage fsSettings(config_file, cv::FileStorage::READ);
+    ROS_INFO("visual_estimator cv filestorage.");
     if (!fsSettings.isOpened())
     {
         std::cerr << "ERROR: Wrong path to settings" << std::endl;
@@ -135,7 +138,9 @@ void readParameters(ros::NodeHandle &n)
     std::vector<double> R_imu_lidar_V;
     n.param<std::vector<double>>(PROJECT_NAME+ "/extrinsicTranslation", t_imu_lidar_V, std::vector<double>());
     n.param<std::vector<double>>(PROJECT_NAME+ "/extrinsicRotation", R_imu_lidar_V, std::vector<double>());
+    ROS_INFO("visual_esimator non-official  1111.");
     t_imu_lidar = Eigen::Map<const Eigen::Matrix<double, -1, -1, Eigen::RowMajor>>(t_imu_lidar_V.data(), 3, 1);
+    ROS_INFO("visual_esimator non-official  2222.");
     Eigen::Matrix3d R_tmp = Eigen::Map<const Eigen::Matrix<double, -1, -1, Eigen::RowMajor>>(R_imu_lidar_V.data(), 3, 3);
     ROS_ASSERT(abs(R_tmp.determinant()) > 0.9);   // 防止配置文件中写错，这里加一个断言判断一下
     R_imu_lidar = Eigen::Quaterniond(R_tmp).normalized().toRotationMatrix();
