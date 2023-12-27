@@ -4,7 +4,6 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /Visual Feature1
         - /Visual Feature1/Image Feature1
         - /Visual Feature1/Image Depth1
       Splitter Ratio: 0.45996275544166565
@@ -453,7 +452,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 85.51264190673828
+      Distance: 69.98685455322266
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -468,10 +467,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.5653994083404541
+      Pitch: 1.375398874282837
       Target Frame: base_link
       Value: Orbit (rviz)
-      Yaw: 5.953587055206299
+      Yaw: 3.9285571575164795
     Saved: ~
 Window Geometry:
   Displays:
@@ -495,5 +494,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 2560
-  X: 1012
-  Y: 495
+  X: 124
+  Y: 32

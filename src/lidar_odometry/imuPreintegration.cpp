@@ -372,7 +372,7 @@ public:
         imuQueImu.push_back(thisImu);
 
         if (doneFirstOpt == false){
-            std::cout << "doneFirstOpt==false." << std::endl;
+            // std::cout << "doneFirstOpt==false." << std::endl;
             return;
         }
 
