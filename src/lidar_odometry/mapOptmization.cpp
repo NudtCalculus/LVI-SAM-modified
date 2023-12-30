@@ -1935,7 +1935,7 @@ public:
         // transform and rotate cloud for matching
         pcl::MultithreadedGeneralizedIterativeClosestPoint<Point, Point> icp;
         icp.setTransformationEpsilon(0.0000000001);
-        icp.setMaxCorrespondenceDistance(0.5);
+        icp.setMaxCorrespondenceDistance(historyKeyframeSearchRadius);
         icp.setMaximumIterations(200);
         icp.setRANSACIterations(0);
         icp.setMaximumOptimizerIterations(50);
